@@ -36,13 +36,9 @@ func main() {
 	slices.Sort(firstList)
 	slices.Sort(secondList)
 
-	var distance int = 0
+	fmt.Println(calculateDistance(firstList, secondList))
+	fmt.Println(calculateSimilarityScore(firstList, secondList))
 
-	for i := 0; i < len(firstList); i++ {
-		distance += int(math.Abs(float64(firstList[i] - secondList[i])))
-	}
-
-	fmt.Println(distance)
 }
 
 func splitNumbers(line string) []string {
@@ -58,4 +54,34 @@ func stringToInt(value string) int {
 	}
 
 	return number
+}
+
+func calculateDistance(firstList []int, secondList []int) int {
+	var distance int = 0
+
+	for i := 0; i < len(firstList); i++ {
+		distance += int(math.Abs(float64(firstList[i] - secondList[i])))
+	}
+
+	return distance
+}
+
+func calculateSimilarityScore(firstList []int, secondList []int) int {
+	var similarityScore int = 0
+
+	for i := 0; i < len(firstList); i++ {
+		count := 0
+		currentValue := firstList[i]
+
+		for j := 0; j < len(secondList); j++ {
+			candidate := secondList[j]
+			if currentValue == candidate {
+				count += 1
+			}
+		}
+
+		similarityScore += currentValue * count
+	}
+
+	return similarityScore
 }
